@@ -44,7 +44,16 @@ public final class FillInTheWallLite extends JavaPlugin implements Listener {
 
             // Create directories
             File customWallFolder = new File(getDataFolder(), "custom");
-            customWallFolder.mkdirs();
+            if (!customWallFolder.exists()) {
+                customWallFolder.mkdirs();
+                saveResource("amogus.yml", false);
+                saveResource("finals.yml", false);
+                // move files
+                File amogus = new File(getDataFolder(), "amogus.yml");
+                amogus.renameTo(new File(customWallFolder, "amogus.yml"));
+                File finals = new File(getDataFolder(), "finals.yml");
+                finals.renameTo(new File(customWallFolder, "finals.yml"));
+            }
 
             simpleMode = getConfig().getBoolean("simple_mode", false);
 

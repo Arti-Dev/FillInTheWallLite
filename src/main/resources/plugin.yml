@@ -4,7 +4,6 @@ main: com.articreep.fillinthewall.FillInTheWallLite
 api-version: '1.20'
 commands:
   fillinthewall:
-    description: testing commands
     usage: /fillinthewall <custom/hotbar>
     aliases: [hitw, holeinthewall, fitw]
   registerplayingfield:
