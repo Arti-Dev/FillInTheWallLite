@@ -105,6 +105,7 @@ public class PlayingField implements Listener {
     private final HashMap<Block, BlockDisplay> incorrectBlockHighlights = new HashMap<>();
 
     public static final String DEFAULT_HOTBAR = "PVC______";
+    private final Map<Player, ItemStack[]> savedInventories = new HashMap<>();
 
     private boolean infiniteReach = false;
     private static final NamespacedKey infiniteReachKey = new NamespacedKey(FillInTheWallLite.getInstance(), "infinite_reach");
@@ -276,6 +277,7 @@ public class PlayingField implements Listener {
 
         players.remove(player);
         playerOrder.remove(player.getUniqueId());
+        loadSavedInventory(player);
         // things not to do if the player was a spectator
         if (previousGamemodes.containsKey(player) && player.getGameMode() != GameMode.SPECTATOR) {
             GameMode previousGamemode = previousGamemodes.get(player);
@@ -295,7 +297,33 @@ public class PlayingField implements Listener {
         return playerOrder.getFirst();
     }
 
+    public void saveInventory(Player player) {
+        if (player == null || !players.contains(player)) return;
+        ItemStack[] contents = player.getInventory().getContents();
+        ItemStack[] clonedContents = new ItemStack[contents.length];
+        for (int i = 0; i < contents.length; i++) {
+            if (contents[i] == null) clonedContents[i] = null;
+            else clonedContents[i] = contents[i].clone();
+        }
+        savedInventories.put(player, clonedContents);
+    }
+
+    public void loadSavedInventory(Player player) {
+        if (player == null || !savedInventories.containsKey(player)) return;
+        ItemStack[] contents = savedInventories.get(player);
+        for (int i = 0; i < contents.length; i++) {
+            if (contents[i] == null) {
+                player.getInventory().setItem(i, new ItemStack(Material.AIR));
+            } else {
+                player.getInventory().setItem(i, contents[i].clone());
+            }
+        }
+        player.setItemOnCursor(null);
+        savedInventories.remove(player);
+    }
+
     public void formatInventory(Player player) {
+        saveInventory(player);
         player.getInventory().clear();
         player.setItemOnCursor(null);
         ItemStack supportBlock;
