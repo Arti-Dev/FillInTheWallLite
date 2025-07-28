@@ -9,7 +9,6 @@ import org.bukkit.Material;
 
 public enum Gamemode {
 
-    TUTORIAL("Tutorial", "Learn how to play!", Material.END_STONE),
     ENDLESS("<gradient:#5e4fa2:#f79459:red>Endless</gradient>", "Step off the playing field to stop playing.", Material.WAXED_EXPOSED_CUT_COPPER),
     SCORE_ATTACK("<gold>Score Attack", "Score as much as you can in 2 minutes!", Material.GOLD_BLOCK),
     RUSH_SCORE_ATTACK("<red>Rush Score Attack", "Use Rush Attacks to score as much as you can!", Material.REDSTONE_BLOCK),
@@ -17,7 +16,8 @@ public enum Gamemode {
     CAPPED_MARATHON("<gray>Marathon", "Aim to clear level 15 as quickly as possible!", Material.COBBLESTONE),
     MARATHON("<gray>Survival", "Survive as long as you can!", Material.COBBLED_DEEPSLATE),
     SANDBOX("<gradient:green:dark_green>Sandbox", "...like the video game Minecraft?", Material.CHAIN_COMMAND_BLOCK),
-    MEGA("<dark_aqua>Mega", "Work with others to fill 200 holes!", Material.LIGHT_BLUE_CONCRETE);
+    MEGA("<dark_aqua>Mega", "Work with others to fill 200 holes!", Material.LIGHT_BLUE_CONCRETE),
+    TUTORIAL("Tutorial", "Learn how to play!", Material.END_STONE);
 
     static {
         ENDLESS.addAttribute(GamemodeAttribute.CONSISTENT_HOLE_COUNT, false);

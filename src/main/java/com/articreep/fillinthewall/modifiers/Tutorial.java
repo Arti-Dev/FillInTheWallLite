@@ -19,10 +19,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTeleportEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.javatuples.Pair;
 
-import java.util.Random;
 import java.util.Set;
 
 public class Tutorial extends ModifierEvent implements Listener {
@@ -33,7 +31,6 @@ public class Tutorial extends ModifierEvent implements Listener {
     int ticksBeforeNextSlide = 0;
     int currentSlide = 0;
     boolean error = false;
-    int chargesAvailable = 2;
 
     private final static MiniMessage miniMessage = MiniMessage.miniMessage();
 
@@ -79,7 +76,6 @@ public class Tutorial extends ModifierEvent implements Listener {
 
     @Override
     public Component actionBarOverride() {
-        if (currentSlide >= 11) return getFormattedFakeMeter();
         return MiniMessage.miniMessage().deserialize("<bold>To leave, walk off the playing field");
     }
 
@@ -218,13 +214,11 @@ public class Tutorial extends ModifierEvent implements Listener {
             field.sendTitleToPlayers(Component.empty(), miniMessage.deserialize("<yellow>It behaves as any other solid block..."), 10, 40, 10);
             block.setType(Material.WAXED_COPPER_GRATE);
             // imitate block place effect
-            Random random = new Random();
             field.getWorld().playSound(block.getLocation(), Sound.BLOCK_COPPER_GRATE_PLACE, 1, 1);
             field.getWorld().playSound(block.getLocation(), Sound.BLOCK_STONE_PLACE, 1, 1);
             enderman.setCarriedBlock(field.getPlayerMaterial().createBlockData());
             ticksBeforeNextSlide = 20 * 3;
         } else if (slideToPlay == 9) {
-            Block crackedBlock = field.coordinatesToBlock(new Pair<>(field.getLength()-2, 0));
             Block regularBlock = field.coordinatesToBlock(new Pair<>(field.getLength()-2, 1));
             field.sendTitleToPlayers(Component.empty(),
                     miniMessage.deserialize("<yellow>but it breaks right before the wall is submitted!"), 10, 40, 10);
@@ -243,37 +237,6 @@ public class Tutorial extends ModifierEvent implements Listener {
                 field.sendTitleToPlayers(Component.empty(), miniMessage.deserialize("<green>Try it with this wall!"), 10, 40, 10);
             }
         } else if (slideToPlay == 11) {
-            field.sendTitleToPlayers(Component.empty(), Component.text("Lastly, let's talk about the Charges on your action bar."), 10, 40, 10);
-            ticksBeforeNextSlide = 20 * 3;
-        } else if (slideToPlay == 12) {
-            field.sendTitleToPlayers(Component.empty(), Component.text("You can use it at any time to activate a special effect, like freezing all walls."), 10, 40, 10);
-            ticksBeforeNextSlide = 20 * 3;
-        } else if (slideToPlay == 13) {
-            // move enderman out of the way
-            Location location = field.getReferencePoint()
-                    .add(field.getFieldDirection().multiply(field.getLength()))
-                    .add(field.getIncomingDirection().multiply(4));
-            setPathfinderGoal(location);
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    if (currentSlide == 13 &&
-                            field.getQueue().countActiveWalls() + field.getQueue().countHiddenWalls() == 0) {
-                        for (int i = 0; i < 3; i++) {
-                            Wall wall = new Wall(field.getLength(), field.getHeight());
-                            wall.generateHoles(1, 3, true);
-                            wall.setTimeRemaining(160);
-                            field.getQueue().addWall(wall);
-                        }
-                    } else if (currentSlide != 13) this.cancel();
-                }
-            }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 5);
-            field.getQueue().allowMultipleWalls(true);
-            field.getQueue().setMaxSpawnCooldown(60);
-
-            field.sendTitleToPlayers(Component.empty(),
-                    miniMessage.deserialize("Try using one here by pressing <key:key.drop>!"), 10, 60, 10);
-        } else if (slideToPlay == 14) {
             Location spawnpoint = field.getReferencePoint()
                     .add(field.getFieldDirection().multiply((field.getLength() - 1) / 2.0));
             teleportEnderman(spawnpoint);
@@ -309,35 +272,6 @@ public class Tutorial extends ModifierEvent implements Listener {
         field.playSoundToPlayers(Sound.ENTITY_ENDERMAN_SCREAM, 1, 1);
         field.sendTitleToPlayers(miniMessage.deserialize("<red>Try again!"),
                 miniMessage.deserialize("<red>" + tip), 10, 40, 10);
-    }
-
-    public void onChargeActivate(Player player) {
-        if (currentSlide == 13 && chargesAvailable > 0) {
-            chargesAvailable--;
-            wallFreeze = true;
-            timeFreeze = true;
-            field.sendTitleToPlayers(miniMessage.deserialize("<aqua>FREEZE!"),
-                   miniMessage.deserialize("<dark_aqua>Walls are temporarily frozen!"), 0, 40, 10);
-            field.playSoundToPlayers(Sound.ENTITY_PLAYER_HURT_FREEZE, 0.5F, 1);
-            Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), () -> {
-                wallFreeze = false;
-                timeFreeze = false;
-                field.sendTitleToPlayers(Component.empty(), miniMessage.deserialize("<green>Walls are no longer frozen!"), 0, 20, 10);
-                field.playSoundToPlayers(Sound.BLOCK_LAVA_EXTINGUISH, 0.5F, 1);
-                ticksBeforeNextSlide = 20 * 5;
-            }, 20 * 5);
-        } else if (chargesAvailable <= 0) {
-            player.sendMessage(miniMessage.deserialize("<red>You're out of charges!"));
-        } else {
-            player.sendMessage(miniMessage.deserialize("<red>Don't worry about this yet!"));
-        }
-    }
-
-    private Component getFormattedFakeMeter() {
-        if (chargesAvailable <= 0) {
-            return miniMessage.deserialize("<red>Out of charges!");
-        }
-        return miniMessage.deserialize("<aqua>" + "Freeze Charges: " + "✦".repeat(chargesAvailable)  + " <blue><bold>Press <key:key.drop>");
     }
 
     public Tutorial copy() {
