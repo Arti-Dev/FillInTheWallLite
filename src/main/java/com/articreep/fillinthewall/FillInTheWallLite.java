@@ -20,6 +20,7 @@ public final class FillInTheWallLite extends JavaPlugin implements Listener {
     private static Scoreboard blankScoreboard;
     private static FillInTheWallLite instance = null;
     private FileConfiguration playingFieldConfig;
+    private static boolean simpleMode = false;
 
     @Override
     public void onEnable() {
@@ -44,6 +45,8 @@ public final class FillInTheWallLite extends JavaPlugin implements Listener {
             // Create directories
             File customWallFolder = new File(getDataFolder(), "custom");
             customWallFolder.mkdirs();
+
+            simpleMode = getConfig().getBoolean("simple_mode", false);
 
             PlayingFieldManager.parseConfig(getPlayingFieldConfig());
         }, 1);
@@ -82,6 +85,7 @@ public final class FillInTheWallLite extends JavaPlugin implements Listener {
 
     public void reload() {
         super.reloadConfig();
+        simpleMode = getConfig().getBoolean("simple_mode", false);
         loadPlayingFieldConfig();
         for (PlayingField field : PlayingFieldManager.playingFieldLocations.values()) {
             if (field.hasStarted()) field.stop(false, false);
@@ -105,5 +109,9 @@ public final class FillInTheWallLite extends JavaPlugin implements Listener {
 
     public static Scoreboard getBlankScoreboard() {
         return blankScoreboard;
+    }
+
+    public static boolean isSimpleMode() {
+        return simpleMode;
     }
 }

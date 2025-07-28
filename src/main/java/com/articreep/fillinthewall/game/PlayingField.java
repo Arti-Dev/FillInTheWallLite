@@ -247,8 +247,11 @@ public class PlayingField implements Listener {
         formatInventory(player);
         Utils.addToNoCollisionScoreboard(player);
         if (!hasStarted() && !hasMenu()) {
-            // Display a new menu
-            createMenu();
+            if (FillInTheWallLite.isSimpleMode()) {
+                start(Gamemode.ENDLESS);
+            } else {
+                createMenu();
+            }
         } else if (hasStarted()) {
             addSpecialGamemodeItems(player);
             player.setGameMode(GameMode.CREATIVE);
