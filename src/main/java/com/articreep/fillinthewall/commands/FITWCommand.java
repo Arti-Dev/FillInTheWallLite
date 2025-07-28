@@ -21,10 +21,17 @@ public class FITWCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         MiniMessage miniMessage = MiniMessage.miniMessage();
         if (args.length >= 1) {
-            if (args[0].equalsIgnoreCase("reload") && sender.isOp()) {
+            if (args[0].equalsIgnoreCase("reload") && sender.hasPermission("fitw.reload")) {
                 FillInTheWallLite.getInstance().reload();
                 sender.sendMessage(miniMessage.deserialize("<green>Config reloaded!"));
                 return true;
+            } else if (args[0].equalsIgnoreCase("toggle") && sender.hasPermission("fitw.toggle")) {
+                PlayingFieldManager.disablePlayingFields = !PlayingFieldManager.disablePlayingFields;
+                if (PlayingFieldManager.disablePlayingFields) {
+                    sender.sendMessage(miniMessage.deserialize("<red>Playing fields have been disabled!"));
+                } else {
+                    sender.sendMessage(miniMessage.deserialize("<green>Playing fields have been enabled!"));
+                }
             } else if (args[0].equalsIgnoreCase("custom")) {
                 if (args.length == 2 && sender instanceof Player player && PlayingFieldManager.isInGame(player)) {
                     PlayingField field = PlayingFieldManager.activePlayingFields.get(player);
@@ -71,9 +78,10 @@ public class FITWCommand implements CommandExecutor, TabCompleter {
             strings.add("hotbar");
 
             // todo use permissions
-            if (sender.isOp()) {
+            if (sender.hasPermission("fitw.reload"))
                 strings.add("reload");
-            }
+            if (sender.hasPermission("fitw.toggle"))
+                strings.add("toggle");
             StringUtil.copyPartialMatches(args[0], strings, completions);
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("custom")) {

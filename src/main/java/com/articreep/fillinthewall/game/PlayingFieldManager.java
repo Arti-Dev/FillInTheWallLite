@@ -22,6 +22,7 @@ public class PlayingFieldManager implements Listener {
     public static Map<Player, PlayingField> activePlayingFields = new HashMap<>();
     public static Map<WorldBoundingBox, PlayingField> playingFieldLocations = new HashMap<>();
     private static final Map<Player, BukkitTask> removalTasks = new HashMap<>();
+    public static boolean disablePlayingFields = false;
 
     @EventHandler
     public void onPlayerEnterField(PlayerMoveEvent event) {
@@ -32,7 +33,7 @@ public class PlayingFieldManager implements Listener {
             if (!field.getBoundingBox().isinBoundingBox(event.getPlayer().getLocation())) {
                 removeTimer(event.getPlayer(), field);
             }
-        } else {
+        } else if (!disablePlayingFields) {
             for (WorldBoundingBox box : playingFieldLocations.keySet()) {
                 if (box.isinBoundingBox(event.getPlayer().getLocation())) {
                     PlayingField field = playingFieldLocations.get(box);
@@ -44,7 +45,7 @@ public class PlayingFieldManager implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        removeGame(event.getPlayer(), true);
+        removeGame(event.getPlayer());
     }
 
     @EventHandler
@@ -96,15 +97,11 @@ public class PlayingFieldManager implements Listener {
      *
      * @param player Player to check
      */
-    public static void removeGame(Player player, boolean force) {
+    public static void removeGame(Player player) {
         PlayingField field = activePlayingFields.get(player);
         if (field != null) {
             field.removePlayer(player);
         }
-    }
-
-    public static void removeGame(Player player) {
-        removeGame(player, false);
     }
 
     public static boolean isInGame(Player player) {

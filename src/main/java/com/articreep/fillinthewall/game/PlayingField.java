@@ -34,8 +34,6 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Transformation;
@@ -300,6 +298,7 @@ public class PlayingField implements Listener {
 
     public void saveInventory(Player player) {
         if (player == null || !players.contains(player)) return;
+        if (savedInventories.containsKey(player)) return;
         ItemStack[] contents = player.getInventory().getContents();
         ItemStack[] clonedContents = new ItemStack[contents.length];
         for (int i = 0; i < contents.length; i++) {
