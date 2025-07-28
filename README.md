@@ -20,7 +20,10 @@ Simply download the latest release and place it in your server's `plugins` folde
 On its own, the plugin won't do anything. You need to define a playing field first using `/registerplayingfield`.
 Follow the instructions in chat. Alternatively, you can copy and adapt the example playing field data in `playingfields.yml`.
 
+<img width="2880" height="1800" alt="471157398-4ae7943e-564d-4cbf-8627-6b87541bda03" src="https://github.com/user-attachments/assets/bb657229-88ff-44ec-a59b-29df1473639e" />
+
 Once that's complete, you can walk up to the playing field and a menu to start the game should appear.
+
 
 # Config
 
