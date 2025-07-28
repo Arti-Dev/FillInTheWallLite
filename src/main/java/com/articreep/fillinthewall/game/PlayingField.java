@@ -71,7 +71,7 @@ public class PlayingField implements Listener {
     private boolean clearDelayActive = false;
 
     private final List<Block> borderBlocks = new ArrayList<>();
-    private final Material defaultBorderMaterial = Material.GRAY_CONCRETE;
+    private final Material defaultBorderMaterial;
     private final Material playerMaterial;
     /**
      * Used to (somewhat) certify that this item was issued by the server
@@ -114,7 +114,7 @@ public class PlayingField implements Listener {
 
     public PlayingField(Location referencePoint, Vector direction, Vector incomingDirection, int standingDistance,
                         WorldBoundingBox boundingBox, int length, int height,
-                        Material wallMaterial, Material playerMaterial, boolean hideBottomBorder, boolean addBackBorder) {
+                        Material wallMaterial, Material playerMaterial, Material borderMaterial, boolean hideBottomBorder, boolean addBackBorder) {
         // define playing field in a very scuffed way
         this.fieldReferencePoint = Utils.centralizeLocation(referencePoint);
         this.fieldDirection = direction;
@@ -131,6 +131,7 @@ public class PlayingField implements Listener {
         this.addBackBorder = addBackBorder;
         this.wallMaterial = wallMaterial;
         this.standingDistance = standingDistance;
+        this.defaultBorderMaterial = borderMaterial;
         setDefaultDisplaySlots();
 
         // Track border blocks
@@ -761,17 +762,8 @@ public class PlayingField implements Listener {
         }
     }
 
-    // todo fix config
     public void resetBorder() {
-        String string = null; /*FillInTheWall.getInstance().getConfig().getString("environments." + environment + ".border"); */
-        Material borderMaterial;
-        try {
-            borderMaterial = Material.valueOf(string);
-        } catch (IllegalArgumentException | NullPointerException e) {
-            changeBorderBlocks(defaultBorderMaterial);
-            return;
-        }
-        changeBorderBlocks(borderMaterial);
+        changeBorderBlocks(defaultBorderMaterial);
     }
 
     // Events, ticking, and effects

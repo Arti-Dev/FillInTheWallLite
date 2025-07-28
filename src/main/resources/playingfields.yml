@@ -12,8 +12,10 @@
 #  queue_length: 20
 #  field_length: 7
 #  field_height: 4
+#  # The maximum distance which the player can stand from the playing field
 #  standing_distance: 7
-#  environment: "VOID"
+#  # The material of the border around the playing field
+#  border_material: "GRAY_CONCRETE"
 #  # Direction where the walls move in.
 #  incoming_direction: "NORTH"
 #  # Direction parallel to the field, left to right

@@ -138,6 +138,8 @@ public class PlayingFieldManager implements Listener {
             boolean addBackBorder = config.getBoolean(key + ".add_back_border");
             String wallMaterialName = config.getString(key + ".wall_material");
             String playerMaterialName = config.getString(key + ".player_material");
+            String borderMaterialName = config.getString(key + ".border_material");
+            Material borderMaterial;
             Material wallMaterial;
             Material playerMaterial;
 
@@ -153,10 +155,16 @@ public class PlayingFieldManager implements Listener {
                 playerMaterial = Material.getMaterial(playerMaterialName);
             }
 
+            if (borderMaterialName == null || Material.getMaterial(borderMaterialName) == null) {
+                borderMaterial = Material.GRAY_CONCRETE;
+            } else {
+                borderMaterial = Material.getMaterial(borderMaterialName);
+            }
+
             WorldBoundingBox box = playingFieldActivationBox(refPoint.clone().subtract(0, 1, 0), incomingDirection, fieldDirection, standingDistance, queueLength, fieldLength, fieldHeight);
 
             PlayingField field = new PlayingField(
-                    refPoint, fieldDirection, incomingDirection, standingDistance, box, fieldLength, fieldHeight, wallMaterial, playerMaterial, hideBottomBorder, addBackBorder);
+                    refPoint, fieldDirection, incomingDirection, standingDistance, box, fieldLength, fieldHeight, wallMaterial, playerMaterial, borderMaterial, hideBottomBorder, addBackBorder);
             playingFieldLocations.put(box, field);
         }
     }
