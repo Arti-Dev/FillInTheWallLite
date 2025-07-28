@@ -20,19 +20,12 @@ public class WallGenerator {
     private final int wallLength;
     private final int wallHeight;
 
-    private int wallTimeDecrease = -1;
-    private int wallTimeDecreaseInterval = -1;
-    private int wallTimeMinimum = 80;
-
-    private int wallHolesIncreaseInterval = -1;
     private int wallHolesMin = 3;
-    private int wallHolesMax = 6;
 
     private int randomHoleCount;
     private int connectedHoleCount;
     private boolean randomizeFurther = true;
     private int wallActiveTime;
-    private boolean coop;
     private WallBundle customWallBundle = null;
 
     // Stats
@@ -51,8 +44,7 @@ public class WallGenerator {
      */
     public void addNewWallToQueues() {
         Wall wall = new Wall(wallLength, wallHeight);
-        if (coop) wall.generateCoopHoles(randomHoleCount + connectedHoleCount);
-        else wall.generateHoles(randomHoleCount, connectedHoleCount, randomizeFurther, wallHolesMin);
+        wall.generateHoles(randomHoleCount, connectedHoleCount, randomizeFurther, wallHolesMin);
         wall.setTimeRemaining(wallActiveTime);
 //        // debug
 //        FillInTheWall.getInstance().getSLF4JLogger().info("R{}C{}, T{}",
@@ -70,25 +62,11 @@ public class WallGenerator {
             }
         }
 
-        // todo very subject to change
         wallsSpawned++;
-        if (wallTimeDecrease > 0 && wallsSpawned % wallTimeDecreaseInterval == 0 && wallActiveTime > wallTimeMinimum) {
-            wallActiveTime -= wallTimeDecrease;
-            if (wallActiveTime < wallTimeMinimum) {
-                wallActiveTime = wallTimeMinimum;
-            }
-        }
-        if (wallHolesIncreaseInterval > 0 && wallsSpawned % wallHolesIncreaseInterval == 0 && randomHoleCount + connectedHoleCount < wallHolesMax) {
-            connectedHoleCount++;
-        }
     }
 
     public void addQueue(WallQueue queue) {
         queues.add(queue);
-    }
-
-    public void removeQueue(WallQueue queue) {
-        queues.remove(queue);
     }
 
     public void setRandomHoleCount(int randomHoleCount) {
@@ -128,28 +106,8 @@ public class WallGenerator {
         return wallHeight;
     }
 
-    public void setWallTimeDecrease(int wallTimeDecrease) {
-        this.wallTimeDecrease = wallTimeDecrease;
-    }
-
-    public void setWallTimeDecreaseInterval(int wallTimeDecreaseInterval) {
-        this.wallTimeDecreaseInterval = wallTimeDecreaseInterval;
-    }
-
-    public void setWallHolesMax(int wallHolesMax) {
-        this.wallHolesMax = wallHolesMax;
-    }
-
     public void setWallHolesMin(int wallHolesMin) {
         this.wallHolesMin = wallHolesMin;
-    }
-
-    public void setWallHolesIncreaseInterval(int wallHolesIncreaseInterval) {
-        this.wallHolesIncreaseInterval = wallHolesIncreaseInterval;
-    }
-
-    public void setCoop(boolean bool) {
-        coop = bool;
     }
 
     public int getWallActiveTime() {

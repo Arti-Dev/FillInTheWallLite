@@ -39,7 +39,7 @@ public class WallQueue {
     private Wall frontmostWall = null;
 
     // Wall generation settings
-    private WallGenerator generator;
+    private final WallGenerator generator;
     boolean hideBottomBorder = false;
     boolean addBackBorder = false;
     private Material wallMaterial = Material.BLUE_CONCRETE;
@@ -300,14 +300,6 @@ public class WallQueue {
         priorityHiddenWalls.clear();
     }
 
-    /**
-     * Counts all walls that are active, including the wall currently being animated, and excluding garbage walls.
-     * @return The number of active walls.
-     */
-    public int countActiveWalls() {
-        return activeWalls.size() + (animatingWall != null ? 1 : 0);
-    }
-
     public int countHiddenWalls() {
         return hiddenWalls.size();
     }
@@ -318,16 +310,6 @@ public class WallQueue {
 
     public void setHideBottomBorder(boolean hideBottomBorder) {
         this.hideBottomBorder = hideBottomBorder;
-    }
-
-    public void setGenerator(WallGenerator generator) {
-        this.generator = generator;
-        generator.addQueue(this);
-    }
-
-    public void resetGenerator() {
-        this.generator = new WallGenerator(field.getLength(), field.getHeight(), 2, 4, 160);
-        generator.addQueue(this);
     }
 
     public void allowMultipleWalls(boolean allow) {
@@ -341,10 +323,6 @@ public class WallQueue {
 
     public void setWallMaterial(Material wallMaterial) {
         this.wallMaterial = wallMaterial;
-    }
-
-    public Material getWallMaterial() {
-        return wallMaterial;
     }
 
     public void correctAllWalls() {

@@ -36,7 +36,6 @@ public abstract class ModifierEvent {
     public boolean fillFieldAfterSubmission = false;
     public boolean modifyWalls = false;
     public boolean allowMeterAccumulation = true;
-    public boolean isChargeEvent = false;
     /**
      * For use with endless mode. Some events (like Multiplace) come with specially designed walls
      * This setting tells them to double the amount of priority walls added to the queue
@@ -157,13 +156,6 @@ public abstract class ModifierEvent {
             return ModifierEvent.createEvent(clazz);
         }
 
-        public Class<? extends ModifierEvent> getClazz() {
-            return clazz;
-        }
-
-        public double getMeterPercentRequired() {
-            return meterPercentRequired;
-        }
     }
 
     public int getTicksRemaining() {

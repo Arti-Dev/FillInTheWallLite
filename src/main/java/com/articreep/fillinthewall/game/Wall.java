@@ -665,10 +665,6 @@ public class Wall {
         this.material = material;
     }
 
-    public void setAltMaterial(Material material) {
-        this.altMaterial = material;
-    }
-
     public Material getMaterial() {
         return material;
     }
@@ -748,46 +744,8 @@ public class Wall {
         if (hardness < 0) hardness = 0;
     }
 
-    public boolean wasHardened() {
-        return wasHardened;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public static Wall parseWall(String string) {
-
-        // Parse wall dimensions
-        int xIndex = string.indexOf("x");
-        int nameStart = string.indexOf("'") + 1;
-        if (xIndex == -1) return null;
-
-        int length = Integer.parseInt(string.substring(0, xIndex));
-        int height = Integer.parseInt(string.substring(xIndex + 1, nameStart - 1));
-
-        // Parse wall name
-        int nameEnd = string.indexOf("'", nameStart);
-        String name = string.substring(nameStart, nameEnd);
-
-//        Bukkit.getLogger().info("Length: " + length);
-//        Bukkit.getLogger().info("Height: " + height);
-//        Bukkit.getLogger().info("Name: " + name);
-
-        Wall wall = new Wall(length, height, name);
-        int coordinateLength = Math.max((int) Math.log10(length) + 1, (int) Math.log10(height) + 1);
-
-        for (int i = nameEnd + 1; i < string.length(); i += coordinateLength * 2) {
-            int x = Integer.parseInt(string.substring(i, i + coordinateLength));
-            int y = Integer.parseInt(string.substring(i + coordinateLength, i + coordinateLength * 2));
-            wall.insertHole(Pair.with(x, y));
-        }
-
-        return wall;
     }
 
     public static Wall parseWall(String string, int length, int height, String name) {

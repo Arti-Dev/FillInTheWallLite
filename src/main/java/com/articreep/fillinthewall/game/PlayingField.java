@@ -470,9 +470,7 @@ public class PlayingField implements Listener {
         confirmOnCooldown = true;
         int pauseTime = this.clearDelay;
         if (eventActive()) pauseTime = this.event.clearDelayOverride;
-        Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), () -> {
-            confirmOnCooldown = false;
-        }, pauseTime);
+        Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), () -> confirmOnCooldown = false, pauseTime);
     }
 
     @EventHandler

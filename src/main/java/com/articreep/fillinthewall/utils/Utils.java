@@ -5,15 +5,12 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scoreboard.Team;
-import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
-import org.joml.Vector3f;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -136,20 +133,6 @@ public class Utils {
         return item;
     }
 
-    /**
-     * Transforms the given display up to the provided scale and keeps all other transformation
-     * vectors the same
-     * @param display The display to scale
-     * @param scale How much to scale by
-     */
-    public static void scaleDisplay(Display display, float scale) {
-        Transformation trans = display.getTransformation();
-        display.setTransformation(new Transformation(trans.getTranslation(),
-                trans.getLeftRotation(),
-                new Vector3f(scale, scale, scale),
-                trans.getRightRotation()));
-    }
-
     public static Component statusComponent(boolean enabled) {
         if (enabled) return miniMessage.deserialize("<green>ENABLED");
         else return miniMessage.deserialize("<red>DISABLED");
@@ -163,11 +146,4 @@ public class Utils {
         }
     }
 
-    public static String secondsTohms(long seconds) {
-        long hours = seconds / 3600;
-        long minutes = (seconds % 3600) / 60;
-        long secs = seconds % 60;
-
-        return String.format("%02dh%02dm%02ds", hours, minutes, secs);
-    }
 }

@@ -7,19 +7,14 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.BlockDisplay;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Transformation;
 import org.javatuples.Pair;
-import org.joml.AxisAngle4f;
-import org.joml.Vector3f;
 
 import java.util.*;
 
@@ -55,36 +50,6 @@ public class Multiplace extends ModifierEvent implements Listener {
                 field.coordinatesToBlock(coords).setType(event.getBlock().getType());
             }
         }
-    }
-
-    // todo this needs a rewrite and a lot of bugfixing
-    //@EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        Block block = event.getPlayer().getLastTwoTargetBlocks(null, 5).getFirst();
-        Material material = player.getInventory().getItemInMainHand().getType();
-        Set<Pair<Integer, Integer>> blockPlacements = calculateBlockPlacements(block);
-        if (!blockDisplays.containsKey(player)) {
-            blockDisplays.put(player, new HashSet<>());
-        }
-        Set<BlockDisplay> displays = blockDisplays.get(player);
-        displays.forEach(BlockDisplay::remove);
-        displays.clear();
-
-        if (material.isBlock()) {
-            for (Pair<Integer, Integer> coords : blockPlacements) {
-                Location location = field.coordinatesToBlock(coords).getLocation().add(0.5, 0.5, 0.5);
-                BlockDisplay display = (BlockDisplay) field.getWorld().spawnEntity(location, EntityType.BLOCK_DISPLAY);
-                display.setBlock(material.createBlockData());
-                float size = 0.5f;
-                display.setTransformation(new Transformation(
-                        new Vector3f(-size/2, -size/2, -size/2),
-                        new AxisAngle4f(0, 0, 0, 1), new Vector3f(size, size, size),
-                        new AxisAngle4f(0, 0, 0, 1)));
-                displays.add(display);
-            }
-        }
-
     }
 
     private Set<Pair<Integer, Integer>> calculateBlockPlacements(Block pivot) {

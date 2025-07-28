@@ -51,14 +51,6 @@ public class WallBundle {
         return bundle;
     }
 
-    public static void exportToYAML(String path, WallBundle bundle) {
-
-    }
-
-    public static void exportToYAML(String path, Wall... walls) {
-        exportToYAML(path, new WallBundle(walls));
-    }
-
     public ArrayList<Wall> getWalls() {
         ArrayList<Wall> list = new ArrayList<>();
         for (Wall wall : walls) {
