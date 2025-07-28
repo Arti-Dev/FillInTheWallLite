@@ -72,11 +72,18 @@ public class Utils {
         }
     }
 
-    public static void resetScoreboard(Player player) {
+    public static void addToNoCollisionScoreboard(Player player) {
         player.setScoreboard(FillInTheWallLite.getBlankScoreboard());
         Team team = FillInTheWallLite.getBlankScoreboard().getTeam(FillInTheWallLite.NO_COLLISION_TEAM_NAME);
         if (team != null) {
             team.addEntity(player);
+        }
+    }
+
+    public static void removeFromNoCollisionScoreboard(Player player) {
+        Team team = FillInTheWallLite.getBlankScoreboard().getTeam(FillInTheWallLite.NO_COLLISION_TEAM_NAME);
+        if (team != null) {
+            team.removeEntity(player);
         }
     }
 

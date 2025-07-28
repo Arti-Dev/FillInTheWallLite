@@ -248,6 +248,7 @@ public class PlayingField implements Listener {
         player.setAllowFlight(true);
         previousGamemodes.put(player, player.getGameMode());
         formatInventory(player);
+        Utils.addToNoCollisionScoreboard(player);
         if (!hasStarted() && !hasMenu()) {
             // Display a new menu
             createMenu();
@@ -288,6 +289,7 @@ public class PlayingField implements Listener {
         previousGamemodes.remove(player);
         removeInfiniteReach(player);
         player.setInvulnerable(false);
+        Utils.removeFromNoCollisionScoreboard(player);
 
         // Remove from playing field manager
         PlayingFieldManager.activePlayingFields.remove(player);
