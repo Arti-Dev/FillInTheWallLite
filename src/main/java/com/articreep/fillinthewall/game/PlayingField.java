@@ -426,11 +426,23 @@ public class PlayingField implements Listener {
         if (showEndScreen) {
             endScreen = scorer.createEndScreen();
             endScreen.display();
+            // I forgot if this is really necessary
+            EndScreen thisSpecificEndScreen = endScreen;
+            Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(),
+                    () -> despawnEndScreenAndSpawnMenu(thisSpecificEndScreen), 20 * 10);
         }
 
         resetRecently = false;
 
         HandlerList.unregisterAll(this);
+    }
+
+    private void despawnEndScreenAndSpawnMenu(EndScreen screen) {
+        if (screen == null) return;
+        if (!players.isEmpty() && !hasMenu() && !hasStarted()) {
+            screen.despawn();
+            createMenu();
+        }
     }
 
     public void stop() {
