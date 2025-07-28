@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.modifiers;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.game.Wall;
 import com.articreep.fillinthewall.gamemode.GamemodeAttribute;
 import net.kyori.adventure.text.Component;
@@ -78,7 +78,7 @@ public class PopIn extends ModifierEvent {
                     popInAnimation(block);
                 }
             }
-        }.runTaskLater(FillInTheWall.getInstance(), field.getClearDelay()+20);
+        }.runTaskLater(FillInTheWallLite.getInstance(), field.getClearDelay()+20);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class PopIn extends ModifierEvent {
                 i++;
                 if (i >= 12) cancel();
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 1);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 1);
     }
 
     public void playDeactivateSound() {
@@ -103,7 +103,7 @@ public class PopIn extends ModifierEvent {
                 i--;
                 if (i <= 0) cancel();
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 1);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 1);
     }
 
     public void popInAnimation(Block block) {
@@ -139,7 +139,7 @@ public class PopIn extends ModifierEvent {
                         new AxisAngle4f(0, 0, 0, 1)));
                 i++;
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 1);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 1);
     }
 
     public PopIn copy() {

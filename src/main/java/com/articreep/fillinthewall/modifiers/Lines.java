@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.modifiers;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.game.Wall;
 import com.articreep.fillinthewall.game.WallBundle;
 import net.kyori.adventure.text.Component;
@@ -28,7 +28,7 @@ public class Lines extends ModifierEvent implements Listener {
     @Override
     public void activate() {
         super.activate();
-        Bukkit.getPluginManager().registerEvents(this, FillInTheWall.getInstance());
+        Bukkit.getPluginManager().registerEvents(this, FillInTheWallLite.getInstance());
         field.sendTitleToPlayers(miniMessage.deserialize("<light_purple>Lines"),
                 Component.text("Placed blocks extend to the other side!"), 0, 40, 10);
         priorityWallBundle.getWalls().forEach(field.getQueue()::addPriorityWall);
@@ -67,7 +67,7 @@ public class Lines extends ModifierEvent implements Listener {
                     }
 
                 }
-            }.runTaskTimer(FillInTheWall.getInstance(), 2, 2);
+            }.runTaskTimer(FillInTheWallLite.getInstance(), 2, 2);
         }
     }
 

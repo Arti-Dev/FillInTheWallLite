@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.game;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -27,12 +27,12 @@ public class WallBundle {
         int length = config.getInt("dimensions.length");
         int height = config.getInt("dimensions.height");
         if (length == 0 || height == 0) {
-            FillInTheWall.getInstance().getSLF4JLogger().error("Invalid or missing dimensions in this YAML config!");
+            FillInTheWallLite.getInstance().getSLF4JLogger().error("Invalid or missing dimensions in this YAML config!");
             return new WallBundle();
         }
         ConfigurationSection wallSection = config.getConfigurationSection("walls");
         if (wallSection == null) {
-            FillInTheWall.getInstance().getSLF4JLogger().error("No walls found in this YAML config!");
+            FillInTheWallLite.getInstance().getSLF4JLogger().error("No walls found in this YAML config!");
             return new WallBundle();
         }
         WallBundle bundle = new WallBundle();
@@ -81,21 +81,21 @@ public class WallBundle {
     }
 
     public static WallBundle getWallBundle(String name) {
-        File dataFolder = FillInTheWall.getInstance().getDataFolder();
+        File dataFolder = FillInTheWallLite.getInstance().getDataFolder();
         File customWalls = new File(dataFolder, "custom/" + name + ".yml");
         return WallBundle.importFromYAML(customWalls);
     }
 
     public static List<String> getAvailableWallBundles() {
         ArrayList<String> list = new ArrayList<>();
-        File dataFolder = FillInTheWall.getInstance().getDataFolder();
+        File dataFolder = FillInTheWallLite.getInstance().getDataFolder();
         File customWallFolder = new File(dataFolder, "custom");
         if (!customWallFolder.exists()) {
             customWallFolder.mkdirs();
         }
         File[] files = customWallFolder.listFiles();
         if (files == null) {
-            FillInTheWall.getInstance().getSLF4JLogger().error("Failed to load custom wall folder");
+            FillInTheWallLite.getInstance().getSLF4JLogger().error("Failed to load custom wall folder");
             return list;
         }
         for (File file : files) {

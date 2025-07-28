@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.game;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.gamemode.GamemodeAttribute;
 import com.articreep.fillinthewall.gamemode.GamemodeSettings;
 import com.articreep.fillinthewall.modifiers.ModifierEvent;
@@ -10,7 +10,6 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 
-import java.util.List;
 import java.util.Random;
 
 public class EndlessRun {
@@ -69,7 +68,7 @@ public class EndlessRun {
         boolean doRandomEvent = rollEventProbability();
         if (doRandomEvent) {
             nextRandomEvent = ModifierEvent.Type.RANDOM_ENDLESS.createEvent();
-            Bukkit.getScheduler().runTaskLater(FillInTheWall.getInstance(), () -> {
+            Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), () -> {
                 nextRandomEvent.setPlayingField(scorer.field);
                 nextRandomEvent.setDoublePriorityWalls(true);
                 nextRandomEvent.additionalInit(scorer.field.getLength(), scorer.field.getHeight());

@@ -1,9 +1,8 @@
 package com.articreep.fillinthewall.utils;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Display;
@@ -74,8 +73,8 @@ public class Utils {
     }
 
     public static void resetScoreboard(Player player) {
-        player.setScoreboard(FillInTheWall.getBlankScoreboard());
-        Team team = FillInTheWall.getBlankScoreboard().getTeam(FillInTheWall.NO_COLLISION_TEAM_NAME);
+        player.setScoreboard(FillInTheWallLite.getBlankScoreboard());
+        Team team = FillInTheWallLite.getBlankScoreboard().getTeam(FillInTheWallLite.NO_COLLISION_TEAM_NAME);
         if (team != null) {
             team.addEntity(player);
         }

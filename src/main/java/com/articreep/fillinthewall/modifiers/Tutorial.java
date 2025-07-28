@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.modifiers;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.game.Wall;
 import com.articreep.fillinthewall.utils.CustomPathfinderGoal;
 import com.articreep.fillinthewall.utils.ToggleLookAtPlayerGoal;
@@ -53,7 +53,7 @@ public class Tutorial extends ModifierEvent implements Listener {
     @Override
     public void activate() {
         super.activate();
-        Bukkit.getPluginManager().registerEvents(this, FillInTheWall.getInstance());
+        Bukkit.getPluginManager().registerEvents(this, FillInTheWallLite.getInstance());
         // todo untested failsafe
         try {
             spawnEnderman();
@@ -163,11 +163,11 @@ public class Tutorial extends ModifierEvent implements Listener {
             lookAtPlayerGoal.setEnabled(false);
             teleportEnderman(location);
             enderman.setCarriedBlock(field.getPlayerMaterial().createBlockData());
-            Bukkit.getScheduler().runTaskLater(FillInTheWall.getInstance(), () -> {
+            Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), () -> {
                 field.coordinatesToBlock(new Pair<>(0, 0)).setType(field.getPlayerMaterial());
                 field.getWorld().playSound(field.getReferencePoint(), Sound.BLOCK_GLASS_PLACE, 1, 1);
             }, 20);
-            Bukkit.getScheduler().runTaskLater(FillInTheWall.getInstance(), () -> {
+            Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), () -> {
                 field.getQueue().instantSend();
             }, 40);
             ticksBeforeNextSlide = 20 * 4;
@@ -230,7 +230,7 @@ public class Tutorial extends ModifierEvent implements Listener {
                     miniMessage.deserialize("<yellow>but it breaks right before the wall is submitted!"), 10, 40, 10);
             regularBlock.setType(field.getPlayerMaterial());
             field.getWorld().playSound(regularBlock.getLocation(), Sound.BLOCK_GLASS_PLACE, 1, 1);
-            Bukkit.getScheduler().runTaskLater(FillInTheWall.getInstance(), () -> field.getQueue().instantSend(), 40);
+            Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), () -> field.getQueue().instantSend(), 40);
             ticksBeforeNextSlide = 20 * 3;
         } else if (slideToPlay == 10) {
             Wall wall = new Wall(field.getLength(), field.getHeight());
@@ -267,7 +267,7 @@ public class Tutorial extends ModifierEvent implements Listener {
                         }
                     } else if (currentSlide != 13) this.cancel();
                 }
-            }.runTaskTimer(FillInTheWall.getInstance(), 0, 5);
+            }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 5);
             field.getQueue().allowMultipleWalls(true);
             field.getQueue().setMaxSpawnCooldown(60);
 
@@ -299,7 +299,7 @@ public class Tutorial extends ModifierEvent implements Listener {
                 if (!wall.getExtraBlocks(field).isEmpty()) tip = "Extra blocks will count against you!";
                 else if (!wall.getMissingBlocks(field).isEmpty()) tip = "You missed some blocks!";
                 else tip = "";
-                Bukkit.getScheduler().runTaskLater(FillInTheWall.getInstance(),
+                Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(),
                         () -> playSlide(currentSlide, true, tip), 20);
             }
         }
@@ -319,7 +319,7 @@ public class Tutorial extends ModifierEvent implements Listener {
             field.sendTitleToPlayers(miniMessage.deserialize("<aqua>FREEZE!"),
                    miniMessage.deserialize("<dark_aqua>Walls are temporarily frozen!"), 0, 40, 10);
             field.playSoundToPlayers(Sound.ENTITY_PLAYER_HURT_FREEZE, 0.5F, 1);
-            Bukkit.getScheduler().runTaskLater(FillInTheWall.getInstance(), () -> {
+            Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), () -> {
                 wallFreeze = false;
                 timeFreeze = false;
                 field.sendTitleToPlayers(Component.empty(), miniMessage.deserialize("<green>Walls are no longer frozen!"), 0, 20, 10);

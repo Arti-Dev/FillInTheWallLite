@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.game;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.gamemode.Gamemode;
 import com.articreep.fillinthewall.gamemode.GamemodeAttribute;
 import com.articreep.fillinthewall.gamemode.GamemodeSettings;
@@ -122,7 +122,7 @@ public class PlayingFieldScorer {
         // Check if we are at endless score threshold
         if (endlessRun != null && this.score >= endlessRun.scoreToNextLevel) {
             field.playSoundToPlayers(Sound.ITEM_TRIDENT_THROW, 1, 1);
-            Bukkit.getScheduler().runTaskLater(FillInTheWall.getInstance(),
+            Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(),
                     () -> endlessRun.nextPhase(), 10);
         }
 
@@ -189,7 +189,7 @@ public class PlayingFieldScorer {
                 }
                 i++;
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 2);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 2);
     }
 
     private final static float E1 = (float) Math.pow(2, (float) -2/12);
@@ -224,7 +224,7 @@ public class PlayingFieldScorer {
                 }
                 i++;
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 3);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 3);
     }
 
     private void awardGarbagePoints(Judgement judgement) {
@@ -277,7 +277,7 @@ public class PlayingFieldScorer {
     }
 
     public ModifierEvent activateEvent(ModifierEvent event) {
-        Bukkit.getScheduler().runTask(FillInTheWall.getInstance(), () -> {
+        Bukkit.getScheduler().runTask(FillInTheWallLite.getInstance(), () -> {
             event.setPlayingField(field);
             event.activate();
             eventCount++;

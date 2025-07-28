@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.multiplayer;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.game.Wall;
 import com.articreep.fillinthewall.game.WallBundle;
 import com.articreep.fillinthewall.game.WallQueue;
@@ -58,7 +58,7 @@ public class WallGenerator {
 //        FillInTheWall.getInstance().getSLF4JLogger().info("R{}C{}, T{}",
 //                randomHoleCount, connectedHoleCount, wallActiveTime);
         if (queues.isEmpty()) {
-            FillInTheWall.getInstance().getSLF4JLogger().warn("No queues to add walls to..?");
+            FillInTheWallLite.getInstance().getSLF4JLogger().warn("No queues to add walls to..?");
         } else {
             wallCount++;
             if (wallCount % 3 == 0 && customWallBundle != null) {

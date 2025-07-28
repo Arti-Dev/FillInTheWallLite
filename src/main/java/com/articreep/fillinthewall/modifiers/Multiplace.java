@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.modifiers;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.game.Wall;
 import com.articreep.fillinthewall.game.WallBundle;
 import net.kyori.adventure.text.Component;
@@ -35,7 +35,7 @@ public class Multiplace extends ModifierEvent implements Listener {
     @Override
     public void activate() {
         super.activate();
-        Bukkit.getPluginManager().registerEvents(this, FillInTheWall.getInstance());
+        Bukkit.getPluginManager().registerEvents(this, FillInTheWallLite.getInstance());
         field.sendTitleToPlayers(miniMessage.deserialize("<gold>Multiplace!"),
                 Component.text("Your blocks are 2x2 now!"), 0, 40, 10);
         if (priorityWallBundle == null) {
@@ -166,7 +166,7 @@ public class Multiplace extends ModifierEvent implements Listener {
                 field.playSoundToPlayers(Sound.BLOCK_HEAVY_CORE_PLACE, 1);
                 i++;
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 2);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 2);
     }
 
     public WallBundle generatePriorityWallBundle(int length, int height) {

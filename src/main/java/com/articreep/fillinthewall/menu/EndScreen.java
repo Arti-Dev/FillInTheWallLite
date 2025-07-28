@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.menu;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
@@ -48,10 +48,10 @@ public class EndScreen {
                 }
                 i++;
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 5);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 5);
 
         // Despawn after 1 minute
-        Bukkit.getScheduler().runTaskLater(FillInTheWall.getInstance(), this::despawn, 20 * 60);
+        Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), this::despawn, 20 * 60);
     }
 
     public void addLine(Component component) {

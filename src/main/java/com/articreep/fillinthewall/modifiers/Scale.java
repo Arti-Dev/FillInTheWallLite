@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.modifiers;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
@@ -36,7 +36,7 @@ public class Scale extends ModifierEvent implements Listener {
     @Override
     public void activate() {
         super.activate();
-        Bukkit.getPluginManager().registerEvents(this, FillInTheWall.getInstance());
+        Bukkit.getPluginManager().registerEvents(this, FillInTheWallLite.getInstance());
         TextColor color;
         if (scale < 1) {
             color = NamedTextColor.RED;
@@ -60,7 +60,7 @@ public class Scale extends ModifierEvent implements Listener {
                         color + ">" + String.format("%.2f", toDisplay) + "</" + color +">" + "!"), 0, 40, 10);
                 i++;
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 1);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 1);
         final double DEFAULT_BLOCK_INTERACTION_RANGE = 4.5;
         double blockInteractionRange = DEFAULT_BLOCK_INTERACTION_RANGE * Math.max(scale, 1);
         for (Player player : field.getPlayers()) {
@@ -130,7 +130,7 @@ public class Scale extends ModifierEvent implements Listener {
                 field.playSoundToPlayers(Sound.BLOCK_NOTE_BLOCK_HARP, 5, pitch);
                 i++;
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 1);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 1);
     }
 
     @Override
@@ -146,6 +146,6 @@ public class Scale extends ModifierEvent implements Listener {
                 field.playSoundToPlayers(Sound.BLOCK_NOTE_BLOCK_HARP, 5, 1);
                 i++;
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 2);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 2);
     }
 }

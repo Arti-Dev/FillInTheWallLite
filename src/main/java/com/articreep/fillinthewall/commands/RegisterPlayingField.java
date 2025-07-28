@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.commands;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -243,12 +243,12 @@ public class RegisterPlayingField implements CommandExecutor, Listener {
         }
 
         private void writeToConfig() {
-            FileConfiguration config = FillInTheWall.getInstance().getPlayingFieldConfig();
+            FileConfiguration config = FillInTheWallLite.getInstance().getPlayingFieldConfig();
             for (Map.Entry<String, Object> entry : data.entrySet()) {
                 config.set(key + "." + entry.getKey(), entry.getValue());
             }
-            FillInTheWall.getInstance().savePlayingFieldConfig();
-            FillInTheWall.getInstance().reload();
+            FillInTheWallLite.getInstance().savePlayingFieldConfig();
+            FillInTheWallLite.getInstance().reload();
         }
 
     }

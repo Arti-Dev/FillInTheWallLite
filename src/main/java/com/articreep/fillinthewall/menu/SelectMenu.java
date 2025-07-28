@@ -68,13 +68,13 @@ public class SelectMenu implements Listener {
         description.setBillboard(Display.Billboard.CENTER);
         controls.setBillboard(Display.Billboard.CENTER);
         updateMenu(Gamemode.values()[gamemodeIndex]);
-        Bukkit.getPluginManager().registerEvents(this, FillInTheWall.getInstance());
+        Bukkit.getPluginManager().registerEvents(this, FillInTheWallLite.getInstance());
         particleTask = createParticleTask();
         spinTask = createSpinTask();
     }
 
     private BukkitTask createParticleTask() {
-        return Bukkit.getScheduler().runTaskTimer(FillInTheWall.getInstance(), () -> {
+        return Bukkit.getScheduler().runTaskTimer(FillInTheWallLite.getInstance(), () -> {
             Player player = Bukkit.getPlayer(field.getEarliestPlayerUUID());
             if (player != null) {
                 World world = player.getWorld();
@@ -93,7 +93,7 @@ public class SelectMenu implements Listener {
                 loc.setYaw(loc.getYaw() + 10);
                 block.teleport(loc);
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 1);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 1);
     }
 
     @EventHandler
@@ -175,7 +175,7 @@ public class SelectMenu implements Listener {
                             new AxisAngle4f(0, 0, 0, 1), new Vector3f(scale, scale, scale),
                             new AxisAngle4f(0, 0, 0, 1)));
                 }
-            }.runTaskTimer(FillInTheWall.getInstance(), 0, 1);
+            }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 1);
         } else if (block != null) {
             block.remove();
         }

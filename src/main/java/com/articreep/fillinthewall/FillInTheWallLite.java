@@ -15,10 +15,10 @@ import org.bukkit.scoreboard.Team;
 
 import java.io.File;
 
-public final class FillInTheWall extends JavaPlugin implements Listener {
+public final class FillInTheWallLite extends JavaPlugin implements Listener {
     public static final String NO_COLLISION_TEAM_NAME = "fitw_no_collision";
     private static Scoreboard blankScoreboard;
-    private static FillInTheWall instance = null;
+    private static FillInTheWallLite instance = null;
     private FileConfiguration playingFieldConfig;
 
     @Override
@@ -38,7 +38,7 @@ public final class FillInTheWall extends JavaPlugin implements Listener {
             saveDefaultConfig();
 
             blankScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-            Team team = blankScoreboard.registerNewTeam(FillInTheWall.NO_COLLISION_TEAM_NAME);
+            Team team = blankScoreboard.registerNewTeam(FillInTheWallLite.NO_COLLISION_TEAM_NAME);
             team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 
             // Create directories
@@ -64,7 +64,7 @@ public final class FillInTheWall extends JavaPlugin implements Listener {
         }
     }
 
-    public static FillInTheWall getInstance() {
+    public static FillInTheWallLite getInstance() {
         return instance;
     }
 

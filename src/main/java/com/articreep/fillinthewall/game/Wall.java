@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.game;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.modifiers.Cheese;
 import com.articreep.fillinthewall.utils.Utils;
 import net.kyori.adventure.text.Component;
@@ -318,9 +318,9 @@ public class Wall {
                     }
                 }
             }
-        }.runTaskLater(FillInTheWall.getInstance(), 5);
+        }.runTaskLater(FillInTheWallLite.getInstance(), 5);
 
-        Bukkit.getScheduler().runTaskLater(FillInTheWall.getInstance(), () -> state = WallState.VISIBLE, 10);
+        Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), () -> state = WallState.VISIBLE, 10);
     }
 
     /** Teleports the board and returns time remaining. */
@@ -383,7 +383,7 @@ public class Wall {
                     cancel();
                 }
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 1);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 1);
     }
 
     /* SCORING */
@@ -472,14 +472,14 @@ public class Wall {
     public void insertHole(Pair<Integer, Integer> hole) {
         if (hole == null || this.holes.contains(hole)) {
             if (hole != null) {
-                FillInTheWall.getInstance().getSLF4JLogger()
+                FillInTheWallLite.getInstance().getSLF4JLogger()
                         .info("Hole already exists: ({}, {})", hole.getValue0(), hole.getValue1());
             }
             return;
         }
         // out of bounds check
         if (hole.getValue0() < 0 || hole.getValue0() >= length || hole.getValue1() < 0 || hole.getValue1() >= height) {
-            FillInTheWall.getInstance().getSLF4JLogger()
+            FillInTheWallLite.getInstance().getSLF4JLogger()
                     .info("Hole is out of bounds: ({}, {})", hole.getValue0(), hole.getValue1());
             return;
         }
@@ -512,7 +512,7 @@ public class Wall {
         possibleCoordinates.removeAll(holes);
         for (int i = 0; i < count; i++) {
             if (possibleCoordinates.isEmpty()) {
-                FillInTheWall.getInstance().getSLF4JLogger().info("Can't insert random hole");
+                FillInTheWallLite.getInstance().getSLF4JLogger().info("Can't insert random hole");
                 break;
             }
             Pair<Integer, Integer> hole = Utils.randomSetElement(possibleCoordinates);
@@ -570,7 +570,7 @@ public class Wall {
                 return possibleCoordinates.get(random.nextInt(possibleCoordinates.size()));
             }
         }
-        FillInTheWall.getInstance().getSLF4JLogger().info("Failed to generate a connected hole");
+        FillInTheWallLite.getInstance().getSLF4JLogger().info("Failed to generate a connected hole");
         return null;
     }
 
@@ -882,7 +882,7 @@ public class Wall {
                 }
                 i++;
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 1);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 1);
     }
 
     private void flipHoles() {

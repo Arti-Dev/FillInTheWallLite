@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.modifiers;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.game.PlayingField;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -34,7 +34,7 @@ public class Unsupported extends ModifierEvent implements Listener
     @Override
     public void activate() {
         super.activate();
-        Bukkit.getPluginManager().registerEvents(this, FillInTheWall.getInstance());
+        Bukkit.getPluginManager().registerEvents(this, FillInTheWallLite.getInstance());
         field.sendTitleToPlayers(miniMessage.deserialize("<color:#9A5F4A>Unsupported"),
                 Component.text("Support blocks are disabled.."), 0, 40, 10);
     }

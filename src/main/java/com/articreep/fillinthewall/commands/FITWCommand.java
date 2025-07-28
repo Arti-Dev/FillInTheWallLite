@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.commands;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.game.*;
 import com.articreep.fillinthewall.gamemode.Gamemode;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -22,7 +22,7 @@ public class FITWCommand implements CommandExecutor, TabCompleter {
         MiniMessage miniMessage = MiniMessage.miniMessage();
         if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("reload") && sender.isOp()) {
-                FillInTheWall.getInstance().reload();
+                FillInTheWallLite.getInstance().reload();
                 sender.sendMessage(miniMessage.deserialize("<green>Config reloaded!"));
                 return true;
             } else if (args[0].equalsIgnoreCase("custom")) {

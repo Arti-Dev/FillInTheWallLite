@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.modifiers;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.game.Wall;
 import com.articreep.fillinthewall.utils.Utils;
 import net.kyori.adventure.text.Component;
@@ -62,7 +62,7 @@ public class Gravity extends ModifierEvent {
         for (Pair<Integer, Integer> coords : blocks.keySet()) {
             Block block = blocks.get(coords);
             if (block.getLocation().add(direction).getBlock().getType() == Material.AIR) {
-                Bukkit.getScheduler().runTask(FillInTheWall.getInstance(), () -> convertToFallingBlock(block));
+                Bukkit.getScheduler().runTask(FillInTheWallLite.getInstance(), () -> convertToFallingBlock(block));
             }
         }
     }
@@ -118,7 +118,7 @@ public class Gravity extends ModifierEvent {
                         if (field.isInField(target.getBlock().getLocation())) {
                             target.getBlock().setType(material);
                         } else {
-                            FillInTheWall.getInstance().getSLF4JLogger().warn("Gravity block fell out of bounds!");
+                            FillInTheWallLite.getInstance().getSLF4JLogger().warn("Gravity block fell out of bounds!");
                         }
                         display.remove();
                         blockDisplays.remove(display);
@@ -128,7 +128,7 @@ public class Gravity extends ModifierEvent {
                     display.teleport(target);
                 }
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 1);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 1);
 
     }
 

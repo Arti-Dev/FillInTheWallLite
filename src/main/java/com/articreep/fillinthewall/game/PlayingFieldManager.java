@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.game;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.utils.WorldBoundingBox;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
@@ -86,7 +86,7 @@ public class PlayingFieldManager implements Listener {
                 removalTasks.remove(player);
                 super.cancel();
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 20);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 20);
 
         removalTasks.put(player, task);
     }

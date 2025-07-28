@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.menu;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.game.DisplayType;
 import com.articreep.fillinthewall.game.PlayingField;
 import com.articreep.fillinthewall.game.Wall;
@@ -112,7 +112,7 @@ public class SandboxMenu implements Listener {
                 } else {
                     if (!gimmick.getPlayingField().getPlayers().contains(player)) return; // Players who left may not use this
                     gimmick.setTicksRemaining((int) (seconds * 20));
-                    Bukkit.getScheduler().runTask(FillInTheWall.getInstance(), () -> {
+                    Bukkit.getScheduler().runTask(FillInTheWallLite.getInstance(), () -> {
                         gimmick.activate();
                         player.playSound(player, Sound.UI_BUTTON_CLICK, 1, 1);
                     });

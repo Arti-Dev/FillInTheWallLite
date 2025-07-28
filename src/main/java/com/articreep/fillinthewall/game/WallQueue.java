@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.game;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.gamemode.GamemodeAttribute;
 import com.articreep.fillinthewall.multiplayer.WallGenerator;
 import com.articreep.fillinthewall.utils.Utils;
@@ -131,7 +131,7 @@ public class WallQueue {
                     this.cancel();
                 }
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 1);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 1);
     }
 
     public void tick() {
@@ -182,7 +182,7 @@ public class WallQueue {
                 field.matchAndScore(wall);
                 pauseTickLoop = field.getClearDelay();
             } else if (wall.getWallState() != WallState.VISIBLE) {
-                FillInTheWall.getInstance().getSLF4JLogger().error("Attempted to tick wall before spawned..");
+                FillInTheWallLite.getInstance().getSLF4JLogger().error("Attempted to tick wall before spawned..");
             }
         }
     }
@@ -364,7 +364,7 @@ public class WallQueue {
      */
     public void hardenWall(Wall wall, int hardness) {
         if (wall.getWallState() != WallState.HIDDEN) {
-            FillInTheWall.getInstance().getSLF4JLogger().error(
+            FillInTheWallLite.getInstance().getSLF4JLogger().error(
                     "Attempted to harden wall that is not hidden/new..");
             return;
         }

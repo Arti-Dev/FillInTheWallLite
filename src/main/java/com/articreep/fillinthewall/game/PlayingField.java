@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.game;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import com.articreep.fillinthewall.gamemode.Gamemode;
 import com.articreep.fillinthewall.gamemode.GamemodeAttribute;
 import com.articreep.fillinthewall.gamemode.GamemodeSettings;
@@ -76,8 +76,8 @@ public class PlayingField implements Listener {
     /**
      * Used to (somewhat) certify that this item was issued by the server
      */
-    public static final NamespacedKey gameKey = new NamespacedKey(FillInTheWall.getInstance(), "GAME_ITEM");
-    public static final NamespacedKey variableKey = new NamespacedKey(FillInTheWall.getInstance(), "VARIABLE_ITEM");
+    public static final NamespacedKey gameKey = new NamespacedKey(FillInTheWallLite.getInstance(), "GAME_ITEM");
+    public static final NamespacedKey variableKey = new NamespacedKey(FillInTheWallLite.getInstance(), "VARIABLE_ITEM");
     private final WorldBoundingBox boundingBox;
 
     private final int displaySlotsLength = 6;
@@ -107,7 +107,7 @@ public class PlayingField implements Listener {
     public static final String DEFAULT_HOTBAR = "PVC______";
 
     private boolean infiniteReach = false;
-    private static final NamespacedKey infiniteReachKey = new NamespacedKey(FillInTheWall.getInstance(), "infinite_reach");
+    private static final NamespacedKey infiniteReachKey = new NamespacedKey(FillInTheWallLite.getInstance(), "infinite_reach");
 
     private boolean highlightIncorrectBlocks = false;
 
@@ -187,7 +187,7 @@ public class PlayingField implements Listener {
                 }
                 i--;
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 10);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 10);
     }
 
     public void reset() {
@@ -200,7 +200,7 @@ public class PlayingField implements Listener {
     public void start(Gamemode mode, GamemodeSettings settings) {
         // Log fail if this is already running
         if (hasStarted()) {
-            FillInTheWall.getInstance().getSLF4JLogger().error("Tried to start game that's already been started");
+            FillInTheWallLite.getInstance().getSLF4JLogger().error("Tried to start game that's already been started");
             return;
         }
         if (players.isEmpty()) {
@@ -209,7 +209,7 @@ public class PlayingField implements Listener {
         if (mode == null) {
             throw new IllegalArgumentException("Gamemode cannot be null");
         }
-        Bukkit.getPluginManager().registerEvents(this, FillInTheWall.getInstance());
+        Bukkit.getPluginManager().registerEvents(this, FillInTheWallLite.getInstance());
         if (!resetRecently) reset();
         scorer.setGamemode(mode, settings);
         if (scorer.getSettings().getBooleanAttribute(GamemodeAttribute.INFINITE_BLOCK_REACH)) infiniteReach = true;
@@ -318,7 +318,7 @@ public class PlayingField implements Listener {
     private void addSpecialGamemodeItems(Player player) {
         if (scorer.getGamemode() == Gamemode.SANDBOX) {
             player.getInventory().setItem(7, sandboxMenuItem());
-            Bukkit.getScheduler().runTaskLater(FillInTheWall.getInstance(), () ->
+            Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), () ->
                     sendTitleToPlayers(miniMessage.deserialize("<gradient:green:dark_green>Sandbox Mode"),
                             Component.text("Right click the nether star in your inventory to customize!"),
                             10, 80, 20), 40);
@@ -426,7 +426,7 @@ public class PlayingField implements Listener {
         confirmOnCooldown = true;
         int pauseTime = this.clearDelay;
         if (eventActive()) pauseTime = this.event.clearDelayOverride;
-        Bukkit.getScheduler().runTaskLater(FillInTheWall.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), () -> {
             confirmOnCooldown = false;
         }, pauseTime);
     }
@@ -494,7 +494,7 @@ public class PlayingField implements Listener {
                             clickedBlock.getLocation().add(0.5, 0.5, 0.5),
                             100, 0.5, 0.5, 0.5, 0.1,
                             Material.CRACKED_STONE_BRICKS.createBlockData());
-                    Bukkit.getScheduler().runTask(FillInTheWall.getInstance(),
+                    Bukkit.getScheduler().runTask(FillInTheWallLite.getInstance(),
                             () -> clickedBlock.breakNaturally(new ItemStack(Material.LEAD)));
                     if (incorrectBlockHighlights.containsKey(clickedBlock)) {
                         incorrectBlockHighlights.get(clickedBlock).remove();
@@ -634,7 +634,7 @@ public class PlayingField implements Listener {
         }
 
         // Clear the field after the pauseTime
-        Bukkit.getScheduler().runTaskLater(FillInTheWall.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), () -> {
             if (eventActive() && event.fillFieldAfterSubmission) fillField(playerMaterial);
             else clearField();
 
@@ -765,7 +765,7 @@ public class PlayingField implements Listener {
                     event.tick();
                 }
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, 1);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 1);
     }
 
     public void actionBar() {
@@ -938,7 +938,7 @@ public class PlayingField implements Listener {
                 textDisplays[i].text(message);
             }
         }
-        Bukkit.getScheduler().runTaskLater(FillInTheWall.getInstance(), () -> displayOverrides.remove(type), ticks);
+        Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), () -> displayOverrides.remove(type), ticks);
     }
 
     /**
@@ -1154,7 +1154,7 @@ public class PlayingField implements Listener {
                 }
                 elapsed += rate;
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 0, rate);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 0, rate);
     }
 
     public void flashLevel(int ticks) {
@@ -1185,7 +1185,7 @@ public class PlayingField implements Listener {
                 }
                 elapsed += rate;
             }
-        }.runTaskTimer(FillInTheWall.getInstance(), 10, rate);
+        }.runTaskTimer(FillInTheWallLite.getInstance(), 10, rate);
     }
 
     private Component flashTextFormat(String text, int cover, int flash, TextColor primary, TextColor accent) {
@@ -1229,7 +1229,7 @@ public class PlayingField implements Listener {
         incorrectBlockHighlights.put(block, display);
 
         // remove after 10 seconds
-        Bukkit.getScheduler().runTaskLater(FillInTheWall.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskLater(FillInTheWallLite.getInstance(), () -> {
             display.remove();
             incorrectBlockHighlights.remove(block);
         }, 20*10);

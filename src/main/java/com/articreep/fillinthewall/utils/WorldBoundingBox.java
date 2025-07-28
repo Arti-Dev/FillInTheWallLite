@@ -1,6 +1,6 @@
 package com.articreep.fillinthewall.utils;
 
-import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.FillInTheWallLite;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -32,7 +32,7 @@ public class WorldBoundingBox {
                     world.spawnParticle(exclusionParticle, exclusionBox.getMax().toLocation(world), 1);
                     }
                 }
-            }.runTaskTimer(FillInTheWall.getInstance(), 0, 20);
+            }.runTaskTimer(FillInTheWallLite.getInstance(), 0, 20);
         }
     }
 
