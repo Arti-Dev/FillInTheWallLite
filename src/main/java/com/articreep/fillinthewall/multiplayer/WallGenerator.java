@@ -1,0 +1,166 @@
+package com.articreep.fillinthewall.multiplayer;
+
+import com.articreep.fillinthewall.FillInTheWall;
+import com.articreep.fillinthewall.game.Wall;
+import com.articreep.fillinthewall.game.WallBundle;
+import com.articreep.fillinthewall.game.WallQueue;
+
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * Generates walls to feed into WallQueues.
+ */
+public class WallGenerator {
+    private final Set<WallQueue> queues = new HashSet<>();
+
+    int wallCount = 0;
+
+    // Settings
+    private final int wallLength;
+    private final int wallHeight;
+
+    private int wallTimeDecrease = -1;
+    private int wallTimeDecreaseInterval = -1;
+    private int wallTimeMinimum = 80;
+
+    private int wallHolesIncreaseInterval = -1;
+    private int wallHolesMin = 3;
+    private int wallHolesMax = 6;
+
+    private int randomHoleCount;
+    private int connectedHoleCount;
+    private boolean randomizeFurther = true;
+    private int wallActiveTime;
+    private boolean coop;
+    private WallBundle customWallBundle = null;
+
+    // Stats
+    private int wallsSpawned = 0;
+
+    public WallGenerator(int length, int height, int startingRandomHoleCount, int startingConnectedHoleCount, int wallActiveTime) {
+        this.wallLength = length;
+        this.wallHeight = height;
+        this.randomHoleCount = startingRandomHoleCount;
+        this.connectedHoleCount = startingConnectedHoleCount;
+        this.wallActiveTime = wallActiveTime;
+    }
+
+    /**
+     * Call this method whenever a queue runs out of walls.
+     */
+    public void addNewWallToQueues() {
+        Wall wall = new Wall(wallLength, wallHeight);
+        if (coop) wall.generateCoopHoles(randomHoleCount + connectedHoleCount);
+        else wall.generateHoles(randomHoleCount, connectedHoleCount, randomizeFurther, wallHolesMin);
+        wall.setTimeRemaining(wallActiveTime);
+//        // debug
+//        FillInTheWall.getInstance().getSLF4JLogger().info("R{}C{}, T{}",
+//                randomHoleCount, connectedHoleCount, wallActiveTime);
+        if (queues.isEmpty()) {
+            FillInTheWall.getInstance().getSLF4JLogger().warn("No queues to add walls to..?");
+        } else {
+            wallCount++;
+            if (wallCount % 3 == 0 && customWallBundle != null) {
+                Wall customWall = customWallBundle.getRandomWall();
+                if (customWall != null) wall = customWall;
+            }
+            for (WallQueue queue : queues) {
+                queue.addWall(wall.copy());
+            }
+        }
+
+        // todo very subject to change
+        wallsSpawned++;
+        if (wallTimeDecrease > 0 && wallsSpawned % wallTimeDecreaseInterval == 0 && wallActiveTime > wallTimeMinimum) {
+            wallActiveTime -= wallTimeDecrease;
+            if (wallActiveTime < wallTimeMinimum) {
+                wallActiveTime = wallTimeMinimum;
+            }
+        }
+        if (wallHolesIncreaseInterval > 0 && wallsSpawned % wallHolesIncreaseInterval == 0 && randomHoleCount + connectedHoleCount < wallHolesMax) {
+            connectedHoleCount++;
+        }
+    }
+
+    public void addQueue(WallQueue queue) {
+        queues.add(queue);
+    }
+
+    public void removeQueue(WallQueue queue) {
+        queues.remove(queue);
+    }
+
+    public void setRandomHoleCount(int randomHoleCount) {
+        this.randomHoleCount = randomHoleCount;
+    }
+
+    public int getRandomHoleCount() {
+        return randomHoleCount;
+    }
+
+    public void setWallActiveTime(int wallActiveTime) {
+        this.wallActiveTime = wallActiveTime;
+    }
+
+    public void setConnectedHoleCount(int connectedHoleCount) {
+        this.connectedHoleCount = connectedHoleCount;
+    }
+
+    public int getConnectedHoleCount() {
+        return connectedHoleCount;
+    }
+
+    public void setRandomizeFurther(boolean randomizeFurther) {
+        this.randomizeFurther = randomizeFurther;
+    }
+
+    public boolean isRandomizeFurther() {
+        return randomizeFurther;
+    }
+
+    public int getLength() {
+        return wallLength;
+    }
+
+
+    public int getHeight() {
+        return wallHeight;
+    }
+
+    public void setWallTimeDecrease(int wallTimeDecrease) {
+        this.wallTimeDecrease = wallTimeDecrease;
+    }
+
+    public void setWallTimeDecreaseInterval(int wallTimeDecreaseInterval) {
+        this.wallTimeDecreaseInterval = wallTimeDecreaseInterval;
+    }
+
+    public void setWallHolesMax(int wallHolesMax) {
+        this.wallHolesMax = wallHolesMax;
+    }
+
+    public void setWallHolesMin(int wallHolesMin) {
+        this.wallHolesMin = wallHolesMin;
+    }
+
+    public void setWallHolesIncreaseInterval(int wallHolesIncreaseInterval) {
+        this.wallHolesIncreaseInterval = wallHolesIncreaseInterval;
+    }
+
+    public void setCoop(boolean bool) {
+        coop = bool;
+    }
+
+    public int getWallActiveTime() {
+        return wallActiveTime;
+    }
+
+    public static WallGenerator defaultGenerator(int length, int height) {
+       return new WallGenerator(length, height, 2, 4, 160);
+    }
+
+    public void setCustomWallBundle(WallBundle customWallBundle) {
+        this.customWallBundle = customWallBundle;
+    }
+}
