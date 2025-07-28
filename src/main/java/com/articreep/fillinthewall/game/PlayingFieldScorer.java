@@ -55,7 +55,7 @@ public class PlayingFieldScorer {
     }
 
     public enum BonusType {
-        PERFECT, FIRE, STRIPE, PLAYER, CHAIN, GIMMICKLESS
+        PERFECT, FIRE, STRIPE, PLAYER, CHAIN
     }
 
     public Judgement scoreWall(Wall wall, PlayingField field) {
@@ -288,7 +288,7 @@ public class PlayingFieldScorer {
     public void displayScoreTitle(Judgement judgement, int score, Map<BonusType, Integer> bonusMap) {
         Title title = Title.title(judgement.getFormattedText(),
                 // todo I shouldn't have to manually use the bonus map, I should just know what the x+y score is
-                Component.text(score + bonusMap.get(BonusType.PERFECT) + bonusMap.get(BonusType.GIMMICKLESS) + " points", judgement.getColor()),
+                Component.text(score + bonusMap.get(BonusType.PERFECT) + " points", judgement.getColor()),
                 getScoreTitleTimes());
         field.sendTitleToPlayers(title);
     }
