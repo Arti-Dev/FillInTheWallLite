@@ -223,7 +223,6 @@ public class PlayingField implements Listener {
         spawnTextDisplays();
         for (Player player : players) {
             addSpecialGamemodeItems(player);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, -1, 0, false, false));
             player.setGameMode(GameMode.CREATIVE);
             if (infiniteReach) giveInfiniteReach(player);
         }
@@ -256,7 +255,6 @@ public class PlayingField implements Listener {
             addSpecialGamemodeItems(player);
             player.setGameMode(GameMode.CREATIVE);
             if (infiniteReach) giveInfiniteReach(player);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, -1, 0, false, false));
         }
 
         // Register with the playing field manager
