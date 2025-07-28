@@ -27,7 +27,7 @@ Once that's complete, you can walk up to the playing field and a menu to start t
 
 # Config
 
-`simple_mode`: # If enabled, the gamemode selection menu will be skipped and either an Endless game or Mega game
+`simple_mode`: If enabled, the gamemode selection menu will be skipped and either an Endless game or Mega game
 will start, depending on the playing field's total area.
 
 # Commands
