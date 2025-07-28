@@ -83,6 +83,13 @@ public final class FillInTheWallLite extends JavaPlugin implements Listener {
     public void reload() {
         super.reloadConfig();
         loadPlayingFieldConfig();
+        for (PlayingField field : PlayingFieldManager.playingFieldLocations.values()) {
+            if (field.hasStarted()) field.stop(false, false);
+            else {
+                field.forceRemoveMenu();
+                field.removeEndScreen();
+            }
+        }
         PlayingFieldManager.removeAllGames();
         PlayingFieldManager.parseConfig(getPlayingFieldConfig());
     }
