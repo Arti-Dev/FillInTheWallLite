@@ -1,8 +1,8 @@
-# Fill in the Wall
+# Fill in the Wall Lite
 
 A modern remake of Hypixel's Hole in the Wall minigame
 
-**Open for a limited time!** Join `fillinthewall.ddns.net` on the latest Minecraft version
+This is a stripped-down version of the [full server](https://github.com/Arti-Dev/FillInTheWall), designed as a hub attraction for any Minecraft server!
 
 [Technical Writeup/Blog Post](https://arti-dev.github.io/2024/08/08/fillinthewall.html)
 
@@ -11,39 +11,35 @@ Originally for [HooHacks 2024](https://devpost.com/software/hole-in-the-wall-rus
 # Video
 [![Fill in the Wall Video](https://img.youtube.com/vi/ARJ5J_cZsdk/0.jpg)](https://www.youtube.com/watch?v=ARJ5J_cZsdk)
 
-# Building
-You'll need:
-- A Paper server
-- A MySQL server (can be run without, but highly recommended)
+# Installation/Setup
 
-*At the time of writing this, this plugin is for 1.21.5!*
+*At the time of writing this, this plugin is for 1.21.7 Paper servers.*
 
-Clone this repository onto your machine and build the Gradle project with `./gradlew build`. You can also open IntelliJ and do it from there.
+Simply download the latest release and place it in your server's `plugins` folder.
 
-Grab the jar file from the /build/libs/ folder and place it in your Spigot/Paper server's plugin folder.
+On its own, the plugin won't do anything. You need to define a playing field first using `/registerplayingfield`.
+Follow the instructions in chat. Alternatively, you can copy and adapt the example playing field data in `playingfields.yml`.
 
-If you try to load the plugin in this state, the plugin will load, but it will say that it failed to connect to a SQL database and that personal bests will not persist and leaderboards will not work.
-
-To fix this, in the config file that's generated at plugins/FillInTheWall/config.yml, configure the database settings. You'll need to manually create a database in the MySQL server you're connecting to, as the plugin will not do this for you. *May change in the future!*
+Once that's complete, you can walk up to the playing field and a menu to start the game should appear.
 
 # Config
 
-- The `singleplayer-portal` and `multiplayer-portal` locations define where the big clickable display entities are located. *You'll figure it out.*
-- The `multiplayer-spawn` location defines where players will be teleported back to after a multiplayer game ends, or when a player runs `/fitw spawn`.
-- The `spectator-finals-spawn` location defines where eliminated players will spawn to spectate during the finals of a multiplayer game.
-- The locations in the `leaderboards` section define where leaderboards will spawn.
-- The `playingfields.yml` file holds the parameters of each playing field. To add a new playing field, run `/registerplayingfield` in-game and follow the instructions.
+`simple_mode`: # If enabled, the gamemode selection menu will be skipped and either an Endless game or Mega game
+will start, depending on the playing field's total area.
 
-Playing fields with names that start with certain things will be included in multiplayer games:
-- if name starts with "field_multi" it will be used in multiplayer qualification rounds
-- if name starts with "field_finals" it will be used in multiplayer finals rounds
-- if name starts with "field_void" it will alter the physical build during Endless mode
+# Commands
 
-*This will also change in the future!*
+- `/registerplayingfield`: Starts a wizard to register a playing field. You can leave with `/registerplayingfield cancel`.
+- `/fitw reload`: Stops all running games and reloads the plugin and config.
+- `/fitw custom`: Clears all queued walls and replaces them with the provided custom wall bundle
+- `/fitw toggle`: Toggles playing fields on and off. Can be helpful if you're trying to build around a playing field.
+- `/fitw hotbar`: Restores the default hotbar items while in a game.
 
 # Custom Walls
 
-Custom walls are grouped into "wall bundles". To add custom walls, create a new folder inside the /plugins/FillInTheWall/ folder called `custom`, and create a new YAML file inside of that.
+Custom walls are grouped into "wall bundles". You can find a few examples in the `custom` folder `(plugins/FillInTheWall/custom)`.
+
+You can load these in the Sandbox gamemode with `/fitw custom <bundle_name>`.
 
 There are two components to a wall bundle YAML file:
 - The dimensions of each wall
@@ -56,18 +52,3 @@ There are two components to a wall bundle YAML file:
 
 The hole formatting are just numbers separated by commas. In a way, these are just ordered pairs, except without any parentheses around them.
 For example, the wall with holes shaped like an Among Us character has the holes: `2,0,4,0,1,1,2,1,3,1,4,1,1,2,2,2,2,3,3,3,4,3`
-
-An example of the wall bundle used in the finals on the server is in `resources/finals.yml` on this repository.
-
-# Commands
-
-- `/fitw reload`: Reloads the config. Can be unstable, so try not to use it.
-- `/fitw abort`: Aborts any active multiplayer game.
-- `/fitw timer`: Starts the pregame timer for multiplayer games.
-- `/fitw start`: If a pregame timer is running, start the game immediately regardless of player count.
-- `/fitw garbage`: Adds empty garbage walls to a player's playing field.
-- `/fitw bundle`: Adds a wall bundle to a player's priority wall queue.
-- `/fitw tip`: Displays an arbitrary tip on a player's playing field.
-- `/fitw modifier`: Triggers a custom gimmick on a player's playing field.
-- `/fitw custom`: Clears all queued walls and replaces them with the provided custom wall bundle
-- `/fitw spawn`: Sends you to the location defined in `multiplayer-spawn` in the config file
