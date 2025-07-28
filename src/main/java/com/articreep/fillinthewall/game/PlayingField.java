@@ -248,7 +248,8 @@ public class PlayingField implements Listener {
         Utils.addToNoCollisionScoreboard(player);
         if (!hasStarted() && !hasMenu()) {
             if (FillInTheWallLite.isSimpleMode()) {
-                start(Gamemode.ENDLESS);
+                if (length * height >= 400) start(Gamemode.MEGA);
+                else start(Gamemode.ENDLESS);
             } else {
                 createMenu();
             }

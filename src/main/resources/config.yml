@@ -1,2 +1,4 @@
-# If enabled, the gamemode selection menu will be skipped and an Endless game will automatically start.
+# If enabled, the gamemode selection menu will be skipped and:
+# - An endless game will automatically start on boards less than 400 blocks total area
+# - A MEGA game will automatically start on boards with 400 blocks or more
 simple_mode: false
