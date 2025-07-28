@@ -38,18 +38,25 @@ public class FITWCommand implements CommandExecutor, TabCompleter {
                     if (field.getScorer().getGamemode() == Gamemode.SANDBOX) {
                         WallBundle bundle = WallBundle.getWallBundle(args[1]);
                         if (bundle.size() == 0) {
-                            sender.sendMessage(miniMessage.deserialize("<red>Something went wrong loading custom walls!"));
-                        } else {
-                            List<Wall> walls = bundle.getWalls();
-                            field.getQueue().clearAllWalls();
-                            walls.forEach(field.getQueue()::addWall);
-                            sender.sendMessage(miniMessage.deserialize("<green>Imported " + walls.size() + " walls"));
+                            sender.sendMessage(miniMessage.deserialize("<red>This doesn't exist, or something went wrong!"));
+                            return true;
                         }
+                        int bundleLength = bundle.getRandomWall().getLength();
+                        int bundleHeight = bundle.getRandomWall().getHeight();
+                        if (bundleLength != field.getLength() || bundleHeight != field.getHeight()) {
+                            sender.sendMessage(miniMessage.deserialize("<red>These custom walls' dimensions don't match your playing field's dimensions!"));
+                            return true;
+                        }
+
+                        List<Wall> walls = bundle.getWalls();
+                        field.getQueue().clearAllWalls();
+                        walls.forEach(field.getQueue()::addWall);
+                        sender.sendMessage(miniMessage.deserialize("<green>Imported " + walls.size() + " walls"));
                     } else {
                         sender.sendMessage(miniMessage.deserialize("<red>You can only use this command in custom mode."));
                     }
                 } else {
-                    sender.sendMessage("Wrong syntax... I won't tell you how though! >:)");
+                    sender.sendMessage("/fitw <custom> <bundle_name>");
                 }
             } else if (args[0].equalsIgnoreCase("hotbar")) {
                 if (sender instanceof Player player) {

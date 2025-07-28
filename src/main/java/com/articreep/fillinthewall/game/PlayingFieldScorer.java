@@ -463,13 +463,14 @@ public class PlayingFieldScorer {
 
         } else if (gamemode == Gamemode.SANDBOX) {
             WallBundle bundle = WallBundle.getWallBundle("amogus");
-            // todo hardcoded dimension check
-            if (bundle.size() == 0 || field.getLength() != 7 || field.getHeight() != 4) {
-                field.sendMessageToPlayers(miniMessage.deserialize("<red>Loading custom walls failed"));
-            } else {
-                List<Wall> walls = bundle.getWalls();
-                field.getQueue().clearAllWalls();
-                walls.forEach(field.getQueue()::addWall);
+            if (bundle.size() > 0) {
+                int length = bundle.getRandomWall().getLength();
+                int height = bundle.getRandomWall().getHeight();
+                if (field.getLength() == length && field.getHeight() == height) {
+                    List<Wall> walls = bundle.getWalls();
+                    field.getQueue().clearAllWalls();
+                    walls.forEach(field.getQueue()::addWall);
+                }
             }
         } else if (gamemode == Gamemode.ENDLESS) {
             endlessRun = new EndlessRun(this);
