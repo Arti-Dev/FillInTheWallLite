@@ -24,7 +24,7 @@ public class RegisterPlayingField implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender sender, @NotNull Command command, @NotNull String label, String @NotNull [] args) {
         MiniMessage miniMessage = MiniMessage.miniMessage();
-        if (!sender.isOp()) {
+        if (!sender.hasPermission("fitw.registerplayingfield")) {
             sender.sendMessage(miniMessage.deserialize("<red>You don't have permission to do that."));
             return true;
         }
@@ -83,28 +83,49 @@ public class RegisterPlayingField implements CommandExecutor, Listener {
 
         public void sendInstructions() {
             MiniMessage miniMessage = MiniMessage.miniMessage();
+            player.sendMessage("");
             switch (stage) {
                 case 0 -> {
                     player.sendMessage("You've activated the playing field registration wizard!");
                     player.sendMessage(miniMessage.deserialize("<yellow>To leave, run /registerplayingfield cancel"));
+                    player.sendMessage(miniMessage.deserialize("<red>Playing field data is stored in the playingfields.yml file."));
                     player.sendMessage(miniMessage.deserialize("<dark_gray>enjoy the GitHub Copilot generated instructions lmao"));
                     player.sendMessage("");
                     player.sendMessage("Please input the name of this playing field.");
                 }
                 case 1 -> {
-                    player.sendMessage("Please look at the field reference point, and run /registerplayingfield.");
                     player.sendMessage("Place a block in the bottom left corner of the playing field, and look at it.");
+                    player.sendMessage("While looking at it, run /registerplayingfield.");
                 }
-                case 2 -> player.sendMessage("Please enter the queue length of this playing field.");
-                case 3 -> player.sendMessage("Please enter the field width of this playing field.");
-                case 4 -> player.sendMessage("Please enter the field height of this playing field.");
-                case 5 -> player.sendMessage("Please enter the standing distance from the playing field.");
-                case 6 -> player.sendMessage("Please enter the environment of this playing field.");
-                case 7 -> player.sendMessage("Please enter the incoming direction of this playing field.");
-                case 8 -> player.sendMessage("Please enter the field direction of this playing field.");
-                case 9 -> player.sendMessage("Please enter whether to hide the bottom border of walls.");
-                case 10 -> player.sendMessage("Please hold the wall block material in your hand and run /registerplayingfield.");
-                case 11 -> player.sendMessage("Please hold the player's building block material in your hand and run /registerplayingfield.");
+                case 2 -> {
+                    player.sendMessage("Please enter the queue length of this playing field.");
+                    player.sendMessage("The standard queue length is 20 blocks.");
+                }
+                case 3 -> {
+                    player.sendMessage("Please enter the field width of this playing field.");
+                    player.sendMessage("The standard field width is 7 blocks.");
+                }
+                case 4 -> {
+                    player.sendMessage("Please enter the field height of this playing field.");
+                    player.sendMessage("The standard field height is 4 blocks.");
+                }
+                case 5 -> {
+                    player.sendMessage("Please enter the standing distance from the playing field.");
+                    player.sendMessage("This is the maximum distance a player can stand from the playing field.");
+                    player.sendMessage("The standard standing distance is 6 blocks.");
+                }
+                case 6 -> {
+                    player.sendMessage("Please enter the incoming direction of this playing field (NORTH, SOUTH, EAST, WEST).");
+                    player.sendMessage("This is the direction walls will be moving towards.");
+                }
+                case 7 -> {
+                    player.sendMessage("Please enter the field direction of this playing field (NORTH, SOUTH, EAST, WEST).");
+                    player.sendMessage("This is the direction parallel to the playing field, from the left side to the right side.");
+                }
+                case 8 -> player.sendMessage("Please enter whether to hide the bottom border of walls.");
+                case 9 -> player.sendMessage("Please hold the wall block material in your hand and run /registerplayingfield.");
+                case 10 -> player.sendMessage("Please hold the player's building block material in your hand and run /registerplayingfield.");
+                case 11 -> player.sendMessage("Please hold the playing field border's block material in your hand and run /registerplayingfield.");
             }
         }
 
@@ -112,10 +133,7 @@ public class RegisterPlayingField implements CommandExecutor, Listener {
             MiniMessage miniMessage = MiniMessage.miniMessage();
             if (stage == 1) {
                 parseData(player.getTargetBlock(null, 5).getLocation());
-            } else if (stage >= 2 && stage <= 6 && arg.equalsIgnoreCase("standard")) {
-                standardSettings();
-                player.sendMessage("Applied standard settings");
-            } else if (stage == 10 || stage == 11) {
+            } else if (stage == 9 || stage == 10 || stage == 11) {
                 parseData(player.getInventory().getItemInMainHand().getType());
             } else if (arg.equalsIgnoreCase("cancel")) {
                 activeSessions.remove(player);
@@ -166,24 +184,20 @@ public class RegisterPlayingField implements CommandExecutor, Listener {
                         stage++;
                     }
                     case 6 -> {
-                        this.data.put("environment", data);
-                        stage++;
-                    }
-                    case 7 -> {
                         String direction = (String) data;
                         direction = direction.toUpperCase();
                         BlockFace.valueOf(direction);
                         this.data.put("incoming_direction", direction);
                         stage++;
                     }
-                    case 8 -> {
+                    case 7 -> {
                         String direction = (String) data;
                         direction = direction.toUpperCase();
                         BlockFace.valueOf(direction);
                         this.data.put("field_direction", direction);
                         stage++;
                     }
-                    case 9 -> {
+                    case 8 -> {
                         if (data instanceof String bool) {
                             if (bool.equalsIgnoreCase("true") || bool.equalsIgnoreCase("false")) {
                                 this.data.put("hide_bottom_border", Boolean.parseBoolean(bool));
@@ -195,7 +209,7 @@ public class RegisterPlayingField implements CommandExecutor, Listener {
                             throw new IllegalArgumentException("Not a string");
                         }
                     }
-                    case 10 -> {
+                    case 9 -> {
                         if (data instanceof Material material) {
                             this.data.put("wall_material", material.toString());
                             stage++;
@@ -203,9 +217,17 @@ public class RegisterPlayingField implements CommandExecutor, Listener {
                             throw new IllegalArgumentException("Not a material");
                         }
                     }
-                    case 11 -> {
+                    case 10 -> {
                         if (data instanceof Material material) {
                             this.data.put("player_material", material.toString());
+                            stage++;
+                        } else {
+                            throw new IllegalArgumentException("Not a material");
+                        }
+                    }
+                    case 11 -> {
+                        if (data instanceof Material material) {
+                            this.data.put("border_material", material.toString());
                             stage++;
                         } else {
                             throw new IllegalArgumentException("Not a material");
@@ -229,16 +251,6 @@ public class RegisterPlayingField implements CommandExecutor, Listener {
 
         public void incorrectData() {
             player.sendMessage(MiniMessage.miniMessage().deserialize("<red>Wrong data type, try again?"));
-            sendInstructions();
-        }
-
-        private void standardSettings() {
-            data.put("queue_length", 20);
-            data.put("field_length", 7);
-            data.put("field_height", 4);
-            data.put("standing_distance", 6);
-            data.put("environment", "NONE");
-            stage = 7;
             sendInstructions();
         }
 
