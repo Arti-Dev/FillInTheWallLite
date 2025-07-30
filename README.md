@@ -2,7 +2,9 @@
 
 A modern remake of Hypixel's Hole in the Wall minigame
 
-This is a stripped-down version of the [full server](https://github.com/Arti-Dev/FillInTheWall), designed as a hub attraction for any Minecraft server!
+Gameplay is simple - place blocks such that they fill in the holes on the incoming wall!
+
+This is a stripped-down version of the [full server](https://github.com/Arti-Dev/FillInTheWall). It's designed as a hub attraction for any Minecraft server!
 
 [Technical Writeup/Blog Post](https://arti-dev.github.io/2024/08/08/fillinthewall.html)
 
