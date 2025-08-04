@@ -2,7 +2,9 @@
 
 A modern remake of Hypixel's Hole in the Wall minigame
 
-This is a stripped-down version of the [full server](https://github.com/Arti-Dev/FillInTheWall), designed as a hub attraction for any Minecraft server!
+Gameplay is simple - place blocks such that they fill in the holes on the incoming wall!
+
+This is a stripped-down version of the [full server](https://github.com/Arti-Dev/FillInTheWall). It's designed as a hub attraction for any Minecraft server!
 
 [Technical Writeup/Blog Post](https://arti-dev.github.io/2024/08/08/fillinthewall.html)
 
@@ -27,7 +29,7 @@ Once that's complete, you can walk up to the playing field and a menu to start t
 
 # Config
 
-`simple_mode`: # If enabled, the gamemode selection menu will be skipped and either an Endless game or Mega game
+`simple_mode`: If enabled, the gamemode selection menu will be skipped and either an Endless game or Mega game
 will start, depending on the playing field's total area.
 
 # Commands
