@@ -33,7 +33,7 @@ dependencies {
 }
 
 group = "com.articreep"
-version = "1.0"
+version = "1.0.1"
 description = "FillInTheWallLite"
 java.sourceCompatibility = JavaVersion.VERSION_21
 
